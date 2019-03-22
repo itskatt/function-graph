@@ -144,13 +144,13 @@ class Orthogonal():
 
         for i, c in enumerate(self._coord_list):
             try:
-                try:
-                    line_end = self._coord_list[i + 1]
-                    assert line_end is not None
-                    assert c is not None
-                except (AssertionError, IndexError):
-                    continue
+                line_end = self._coord_list[i + 1]
+                assert line_end is not None
+                assert c is not None
+            except (AssertionError, IndexError):
+                continue
 
+            try:
                 draw.line(
                     [c, line_end],
                     "red",  # Color change
