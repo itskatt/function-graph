@@ -156,12 +156,13 @@ class Orthogonal():
                     "red",  # Color change
                     size
                 )
-                if self.mode == "animated":
-                    self._frames.append(bg.copy())
             except OverflowError:
                 # An OverflowError was raised (ex: Python int too large
                 # to convert to C long)
                 pass
+            else:
+                if self.mode == "animated":
+                    self._frames.append(bg.copy())
 
     def draw_graph(self):
         """
