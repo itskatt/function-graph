@@ -185,7 +185,7 @@ class Orthogonal():
             self._calculate_coords()
 
         with self._mesure_time("draw_time"):
-            self._draw_graph_line(backgroud, draw, 4)  # <-- Dot/line size
+            self._draw_graph_line(backgroud, draw, self.width // 125)  # <-- Dot/line size
 
         buffer = io.BytesIO()
 
