@@ -190,18 +190,17 @@ class Orthogonal():
         buffer = io.BytesIO()
 
         if self.mode == "animated":
-            start = time.perf_counter()
-            backgroud.save(
-                f"{self._filename}.gif" if not self._save_to_buff else buffer,
-                format="GIF",
-                append_images=self._frames[::2],
-                save_all=True,
-                duration=20,
-                loop=self._loop
-            )
-            buffer.seek(0)
-            self.buffer = buffer
-            self.save_time = time.perf_counter() - start
+            with self._mesure_time("save_time"):
+                backgroud.save(
+                    f"{self._filename}.gif" if not self._save_to_buff else buffer,
+                    format="GIF",
+                    append_images=self._frames[::2],
+                    save_all=True,
+                    duration=20,
+                    loop=self._loop
+                )
+                buffer.seek(0)
+                self.buffer = buffer
             return
 
         with self._mesure_time("save_time"):
