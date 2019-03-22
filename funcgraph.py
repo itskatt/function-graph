@@ -11,7 +11,7 @@ class Orthogonal():
     .
     """
 
-    def __init__(self, expression, width=500, height=500, mode="static", graduation=None, loop=0, save_to_buffer=False, 
+    def __init__(self, expression, width=500, height=500, mode="static", graduation=None, loop=0, save_to_buffer=False,
                  draw_out_of_bounds=False, filename="graph"):
         self.width = round(width)
         self.height = round(height)
@@ -129,8 +129,8 @@ class Orthogonal():
             "tau": math.tau
         }
         for x in range(-self.center[0], self.center[0]):
+            env.update({"x": x / a})
             try:
-                env.update({"x": x / a})
                 y = eval(self.expr, env)
             except ArithmeticError:
                 self._coord_list.append(None)
