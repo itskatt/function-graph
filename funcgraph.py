@@ -119,6 +119,9 @@ class Orthogonal():
             "log": math.log,
             "factorial": math.factorial,
 
+            "ceil": math.ceil,
+            "floor": math.floor,
+
             "pi": math.pi,
             "e": math.e,
             "tau": math.tau
