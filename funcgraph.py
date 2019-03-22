@@ -87,11 +87,11 @@ class Orthogonal():
         for c in range(-self.center[0], self.center[0], hgrad):
             d.line(
                 [
-                    self._coords(c, 10),
-                    self._coords(c, -10)
+                    self._coords(c, self.width // 50),
+                    self._coords(c, -(self.width // 50))
                 ],
                 "black",  # For a real grid look it happens here
-                2
+                self.width // 250
             )
 
         # Vertical graduation
@@ -100,11 +100,11 @@ class Orthogonal():
         for c in range(-self.center[1], self.center[1], vgrad):
             d.line(
                 [
-                    self._coords(10, c),
-                    self._coords(-10, c)
+                    self._coords(self.height // 50, c),
+                    self._coords(-(self.height // 50), c)
                 ],
                 "black",
-                2
+                self.height // 250
             )
 
     def _calculate_coords(self):
