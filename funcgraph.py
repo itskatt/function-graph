@@ -147,7 +147,7 @@ class Orthogonal():
             env.update({"x": x / a})
             try:
                 y = eval(self.expr, env)
-            except ArithmeticError:
+            except (ArithmeticError, ValueError):
                 self._coord_list.append(None)
             else:
                 self._coord_list.append(self._coords(x, y * a))
