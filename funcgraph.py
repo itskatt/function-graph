@@ -9,6 +9,7 @@ from PIL import Image, ImageDraw
 
 # TODO: add multiple functions suport, finish interactive creator
 
+
 class Orthogonal():
     """
     .
