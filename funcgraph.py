@@ -13,7 +13,7 @@ class Orthogonal():
     """
 
     def __init__(self, expression, width=500, height=500, mode="static", graduation=None, loop=0, save_to_buffer=False,
-                 draw_out_of_bounds=False, filename="graph"):
+                 filename="graph"):
         self.width = round(width)
         self.height = round(height)
         self.center = (round(width / 2), round(height / 2))
@@ -24,7 +24,6 @@ class Orthogonal():
         self._graduation = graduation
         self._loop = loop
         self._save_to_buff = save_to_buffer
-        self._out_of_bounds = draw_out_of_bounds
         self._filename = filename
 
         self._frames = []
@@ -144,10 +143,7 @@ class Orthogonal():
             except ArithmeticError:
                 self._coord_list.append(None)
             else:
-                if y * a > self.height and self._out_of_bounds:  # Out of bound
-                    self._coord_list.append(None)
-                else:
-                    self._coord_list.append(self._coords(x, y * a))
+                self._coord_list.append(self._coords(x, y * a))
 
     def _draw_graph_line(self, bg, draw, size):
 
@@ -157,8 +153,10 @@ class Orthogonal():
                 assert line_end is not None
                 assert c is not None
             except (AssertionError, IndexError):
-                continue
-
+                if c[1] < self.height and line_end[1] > self.height:
+                    pass
+                else:
+                    continue
             try:
                 draw.line(
                     [c, line_end],
@@ -258,13 +256,6 @@ def main():
         default=False
     )
     p.add_argument(
-        "-db",
-        "--draw-out-bounds",
-        help="Dots out of image will be drawn.",
-        action="store_true",
-        default=False
-    )
-    p.add_argument(
         "-t",
         "--time",
         help="Print time information",
@@ -279,7 +270,6 @@ def main():
         args.width,
         args.height,
         graduation=args.graduation,
-        draw_out_of_bounds=args.draw_out_bounds,
         mode="animated" if args.animated else "static",
         filename=args.filename
     )
