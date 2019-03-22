@@ -194,7 +194,7 @@ class Orthogonal():
             backgroud.save(
                 f"{self._filename}.gif" if not self._save_to_buff else buffer,
                 format="GIF",
-                append_images=self._frames,
+                append_images=self._frames[::2],
                 save_all=True,
                 duration=20,
                 loop=self._loop
