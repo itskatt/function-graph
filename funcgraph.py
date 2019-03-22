@@ -1,6 +1,6 @@
 import argparse
 import io
-import math  # noqa: F401
+import math
 import time
 
 from PIL import Image, ImageDraw
