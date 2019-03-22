@@ -1,6 +1,7 @@
 import argparse
 import io
 import math
+import sys
 import time
 from contextlib import contextmanager
 
@@ -222,7 +223,7 @@ class Orthogonal():
             self.buffer = buffer
 
 
-def main():
+def get_cli_args():
     p = argparse.ArgumentParser(description="Function graph generator.")
 
     p.add_argument(
@@ -265,7 +266,23 @@ def main():
         default=False
     )
 
-    args = p.parse_args()
+    return p.parse_args()
+
+
+def interactive_setup():
+    print(
+        "Welcome to this simple function graph generator.\n"
+        "For now this interactive function creator is not ready.\n"
+        "Please use funcgraph.py -h for more help!"
+    )
+
+
+def main():
+    if len(sys.argv) > 1:
+        args = get_cli_args()
+    else:
+        interactive_setup()
+        sys.exit()  # Temporary
 
     ortho = Orthogonal(
         args.expression,
