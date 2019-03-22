@@ -117,6 +117,8 @@ class Orthogonal():
             "rad": math.radians,
 
             "log": math.log,
+            "log10": math.log10,
+            "log2": math.log2,
             "factorial": math.factorial,
 
             "ceil": math.ceil,
