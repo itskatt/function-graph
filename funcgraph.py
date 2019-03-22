@@ -2,6 +2,7 @@ import argparse
 import io
 import math
 import time
+from contextlib import contextmanager
 
 from PIL import Image, ImageDraw
 
@@ -29,9 +30,17 @@ class Orthogonal():
         self._frames = []
         self._coord_list = []
 
-        self.calculation_time = None
-        self.draw_time = None
-        self.save_time = None
+        self.stats = {
+            "calculation_time": None,
+            "draw_time": None,
+            "save_time": None
+        }
+
+    @contextmanager
+    def _mesure_time(self, val):
+        start = time.perf_counter()
+        yield
+        self.stats[val] = time.perf_counter() - start
 
     def _coords(self, x, y):
         """
@@ -174,13 +183,11 @@ class Orthogonal():
 
         self._draw_lines(draw)
 
-        start = time.perf_counter()
-        self._calculate_coords()
-        self.calculation_time = time.perf_counter() - start
+        with self._mesure_time("calculation_time"):
+            self._calculate_coords()
 
-        start = time.perf_counter()
-        self._draw_graph_line(backgroud, draw, 4)  # <-- Dot/line size
-        self.draw_time = time.perf_counter() - start
+        with self._mesure_time("draw_time"):
+            self._draw_graph_line(backgroud, draw, 4)  # <-- Dot/line size
 
         buffer = io.BytesIO()
 
@@ -199,14 +206,13 @@ class Orthogonal():
             self.save_time = time.perf_counter() - start
             return
 
-        start = time.perf_counter()
-        backgroud.save(
-            f"{self._filename}.png" if not self._save_to_buff else buffer,
-            format="PNG"
-        )
-        buffer.seek(0)
-        self.buffer = buffer
-        self.save_time = time.perf_counter() - start
+        with self._mesure_time("save_time"):
+            backgroud.save(
+                f"{self._filename}.png" if not self._save_to_buff else buffer,
+                format="PNG"
+            )
+            buffer.seek(0)
+            self.buffer = buffer
 
 
 def main():
@@ -281,9 +287,9 @@ def main():
     if args.time:
         print(
             f"""
-Calculation time: {ortho.calculation_time}
-       Draw time: {ortho.draw_time}
-       Save time: {ortho.save_time}
+Calculation time: {ortho.stats["calculation_time"]}
+       Draw time: {ortho.stats["draw_time"]}
+       Save time: {ortho.stats["save_time"]}
         """
         )
 
