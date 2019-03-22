@@ -11,8 +11,7 @@ class Orthogonal():
     .
     """
 
-    def __init__(self, expression, width=500, height=500, mode="static",
-                 graduation=None, loop=0, save_to_buffer=False,
+    def __init__(self, expression, width=500, height=500, mode="static", graduation=None, loop=0, save_to_buffer=False, 
                  draw_out_of_bounds=False, filename="graph"):
         self.width = round(width)
         self.height = round(height)
@@ -71,8 +70,7 @@ class Orthogonal():
         # if it will look bad
         if not self._graduation:
             return
-        if self._graduation > self.height / 10 and \
-                self._graduation > self.width / 10:
+        if self._graduation > self.height / 10 and self._graduation > self.width / 10:
             return
 
         # Horizontal graduation
