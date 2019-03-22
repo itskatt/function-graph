@@ -131,6 +131,13 @@ class Orthogonal():
 
             "ceil": math.ceil,
             "floor": math.floor,
+            "trunc": math.trunc,
+
+            "exp": math.exp,
+            "expm1": math.expm1,
+
+            "gamma": math.gamma,
+            "lgamma": math.lgamma,
 
             "pi": math.pi,
             "e": math.e,
