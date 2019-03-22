@@ -104,30 +104,28 @@ class Orthogonal():
             a = round(self.center[0] / self._graduation)
         else:
             a = 1
+        env = {
+            "sin": math.sin,
+            "cos": math.cos,
+            "tan": math.tan,
 
+            "asin": math.asin,
+            "acos": math.acos,
+            "atan": math.atan,
+
+            "deg": math.degrees,
+            "rad": math.radians,
+
+            "log": math.log,
+            "factorial": math.factorial,
+
+            "pi": math.pi,
+            "e": math.e,
+            "tau": math.tau
+        }
         for x in range(-self.center[0], self.center[0]):
             try:
-                env = {
-                    "x": x / a,
-
-                    "sin": math.sin,
-                    "cos": math.cos,
-                    "tan": math.tan,
-
-                    "asin": math.asin,
-                    "acos": math.acos,
-                    "atan": math.atan,
-
-                    "deg": math.degrees,
-                    "rad": math.radians,
-
-                    "log": math.log,
-                    "factorial": math.factorial,
-
-                    "pi": math.pi,
-                    "e": math.e,
-                    "tau": math.tau
-                }
+                env.update({"x": x / a})
                 y = eval(self.expr, env)
             except ArithmeticError:
                 self._coord_list.append(None)
