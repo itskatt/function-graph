@@ -12,11 +12,11 @@ class Orthogonal():
     .
     """
 
-    def __init__(self, expression, width=500, height=500, mode="static", graduation=None, loop=0, save_to_buffer=False,
+    def __init__(self, expression, size=500, mode="static", graduation=None, loop=0, save_to_buffer=False,
                  filename="graph"):
-        self.width = round(width)
-        self.height = round(height)
-        self.center = (round(width / 2), round(height / 2))
+        self.width = round(size)
+        self.height = round(size)
+        self.center = (round(size / 2), round(size / 2))
 
         self.expr = expression
 
@@ -221,16 +221,9 @@ def main():
         type=str,
     )
     p.add_argument(
-        "-w",
-        "--width",
-        help="The graph's width (in pixels).",
-        type=int,
-        default=500
-    )
-    p.add_argument(
-        "-hg",
-        "--height",
-        help="The graph's height (in pixels).",
+        "-s",
+        "--size",
+        help="The graph's size (width and height, in pixels).",
         type=int,
         default=500
     )
@@ -266,8 +259,7 @@ def main():
 
     ortho = Orthogonal(
         args.expression,
-        args.width,
-        args.height,
+        args.size,
         graduation=args.graduation,
         mode="animated" if args.animated else "static",
         filename=args.filename
