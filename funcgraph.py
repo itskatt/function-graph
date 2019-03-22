@@ -160,9 +160,12 @@ class Orthogonal():
                 assert line_end is not None
                 assert c is not None
             except (AssertionError, IndexError):
-                if c[1] < self.height and line_end[1] > self.height:
-                    pass
-                else:
+                try:
+                    if c[1] < self.height and line_end[1] > self.height:
+                        pass
+                    else:
+                        continue
+                except TypeError:
                     continue
             try:
                 draw.line(
