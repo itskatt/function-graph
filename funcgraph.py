@@ -43,7 +43,10 @@ class Orthogonal():
     def _mesure_time(self, val):
         start = time.perf_counter()
         yield
-        self.stats[val] = time.perf_counter() - start
+        if not self.stats[val]:
+            self.stats[val] = time.perf_counter() - start
+        else:
+            self.stats[val] += time.perf_counter() - start
 
     def log(self, text, end="\n"):
         if self._verb:
@@ -117,7 +120,7 @@ class Orthogonal():
             )
         self.log("Graduation drewn.\n")
 
-    def _calculate_coords(self):
+    def _calculate_coords(self, expr):
         if self._graduation:
             a = round(self.center[0] / self._graduation)
         else:
@@ -156,8 +159,8 @@ class Orthogonal():
         for x in range(-self.center[0], self.center[0]):
             env.update({"x": x / a})
             try:
-                y = eval(self.expr, env)
-            except (ArithmeticError, ValueError) as e:
+                y = eval(expr, env)
+            except (ArithmeticError, ValueError, SyntaxError) as e:
                 self._coord_list.append(None)
                 self.log(f"Failed to calculate expression with {x}: {e}")
             else:
@@ -192,6 +195,7 @@ class Orthogonal():
             else:
                 if self.mode == "animated":
                     self._frames.append(bg.copy())
+        self._coord_list.clear()
         self.log("")
 
     def draw_graph(self):
@@ -207,11 +211,15 @@ class Orthogonal():
 
         self._draw_lines(draw)
 
-        with self._mesure_time("calculation_time"):
-            self._calculate_coords()
+        if not hasattr(self.expr, "__iter__"):
+            self.expr = (self.expr)
+        for expr in self.expr:
+            self.log(f"Processing {expr}:", "")
+            with self._mesure_time("calculation_time"):
+                self._calculate_coords(expr)
 
-        with self._mesure_time("draw_time"):
-            self._draw_graph_line(backgroud, draw, self.width // 125)  # <-- Dot/line size
+            with self._mesure_time("draw_time"):
+                self._draw_graph_line(backgroud, draw, self.width // 125)  # <-- Dot/line size
 
         buffer = io.BytesIO()
 
@@ -246,6 +254,7 @@ def get_cli_args():
         "expression",
         help="The expression to be drawn on the graph.",
         type=str,
+        nargs="+"
     )
     p.add_argument(
         "-s",
