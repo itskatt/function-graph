@@ -7,7 +7,7 @@ from contextlib import contextmanager
 
 from PIL import Image, ImageDraw
 
-# TODO: add multiple functions suport, finish interactive creator
+# TODO: finish multiple functions suport and interactive creator
 
 
 class Orthogonal():
