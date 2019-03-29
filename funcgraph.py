@@ -240,8 +240,8 @@ class Orthogonal():
         self._draw_lines(draw)
 
         # Calculating and drawing logic
-        if not hasattr(self.expr, "__iter__"):
-            self.expr = (self.expr)
+        if not hasattr(self.expr, "__iter__") or isinstance(self.expr, str):
+            self.expr = [self.expr]
 
         to_process = self._assing_colors()
 
@@ -337,9 +337,16 @@ def get_cli_args():
 def interactive_setup():
     print(
         "Welcome to this simple function graph generator.\n"
-        "For now this interactive function creator is not ready.\n"
-        "Please use funcgraph.py -h for more help!"
+        "To start, please enter your expression bellow:\n"
     )
+    expr = input(": ")
+    ortho = Orthogonal(
+        expr,
+        size=500,
+        animated=False,
+        graduation=10
+    )
+    ortho.draw_graph()
 
 
 def main():
