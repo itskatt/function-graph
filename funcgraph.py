@@ -252,7 +252,7 @@ def get_cli_args():
 
     p.add_argument(
         "expression",
-        help="The expression to be drawn on the graph.",
+        help="The expression(s) to be drawn on the graph.",
         type=str,
         nargs="+"
     )
