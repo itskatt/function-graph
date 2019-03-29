@@ -181,7 +181,6 @@ class Orthogonal():
         self._log("")  # Space
 
     def _draw_graph_line(self, bg, draw, size):
-
         for i, c in enumerate(self._coord_list):
             try:
                 line_end = self._coord_list[i + 1]
@@ -224,10 +223,12 @@ class Orthogonal():
 
         self._draw_lines(draw)
 
+        # Calculating and drawing logic
         if not hasattr(self.expr, "__iter__"):
             self.expr = (self.expr)
         for expr in self.expr:
             self._log(f"Processing {expr}:", "")
+
             with self._mesure_time("calculation_time"):
                 self._calculate_coords(expr)
 
