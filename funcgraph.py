@@ -15,7 +15,7 @@ class Orthogonal():
     .
     """
 
-    def __init__(self, expression, size=500, mode="static", graduation=None, loop=0, save_to_buffer=False,
+    def __init__(self, expression, size=500, animated=False, graduation=None, loop=0, save_to_buffer=False,
                  filename="graph", verbose=False):
         self.width = round(size)
         self.height = round(size)
@@ -23,7 +23,7 @@ class Orthogonal():
 
         self.expr = expression
 
-        self.mode = mode
+        self.animated = animated
         self._graduation = graduation
         self._loop = loop
         self._save_to_buff = save_to_buffer
@@ -206,7 +206,7 @@ class Orthogonal():
             except OverflowError as e:
                 self._log(f"Failed to draw coords from {c} to {line_end}: {e}")
             else:
-                if self.mode == "animated":
+                if self.animated:
                     self._frames.append(bg.copy())
         self._coord_list.clear()
         self._log("")
@@ -236,7 +236,7 @@ class Orthogonal():
 
         buffer = io.BytesIO()
 
-        if self.mode == "animated":
+        if self.animated:
             self._log("Now saving animated graph...")
             with self._mesure_time("save_time"):
                 backgroud.save(
@@ -333,7 +333,7 @@ def main():
         args.expression,
         args.size,
         graduation=args.graduation,
-        mode="animated" if args.animated else "static",
+        animated=args.animated,
         filename=args.filename,
         verbose=args.verbose
     )
