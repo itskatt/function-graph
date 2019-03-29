@@ -61,7 +61,7 @@ class Orthogonal():
         else:
             self.stats[val] += time.perf_counter() - start
 
-    def log(self, text, end="\n"):
+    def _log(self, text, end="\n"):
         if self._verb:
             print(text, end=end)
 
@@ -98,7 +98,7 @@ class Orthogonal():
             "black",
             self.width // 100
         )
-        self.log("Horizontal and vertical lines drewn.")
+        self._log("Horizontal and vertical lines drewn.")
         # We don't draw the graduation if there is no graduation and
         # if it will look bad
         if not self._graduation:
@@ -131,7 +131,7 @@ class Orthogonal():
                 "black",
                 self.height // 250
             )
-        self.log("Graduation drewn.\n")
+        self._log("Graduation drewn.\n")
 
     def _calculate_coords(self, expr):
         if self._graduation:
@@ -175,10 +175,10 @@ class Orthogonal():
                 y = eval(expr, env)
             except (ArithmeticError, ValueError, SyntaxError) as e:
                 self._coord_list.append(None)
-                self.log(f"Failed to calculate expression with {x}: {e}")
+                self._log(f"Failed to calculate expression with {x}: {e}")
             else:
                 self._coord_list.append(self._coords(x, y * a))
-        self.log("")  # Space
+        self._log("")  # Space
 
     def _draw_graph_line(self, bg, draw, size):
 
@@ -192,10 +192,10 @@ class Orthogonal():
                     if c[1] < self.height and line_end[1] > self.height:
                         pass
                     else:
-                        self.log(f"Will not draw coords from {c} to {line_end}")
+                        self._log(f"Will not draw coords from {c} to {line_end}")
                         continue
                 except TypeError:
-                    self.log(f"Will not draw coords from {c} to {line_end}")
+                    self._log(f"Will not draw coords from {c} to {line_end}")
                     continue
             try:
                 draw.line(
@@ -204,18 +204,18 @@ class Orthogonal():
                     size
                 )
             except OverflowError as e:
-                self.log(f"Failed to draw coords from {c} to {line_end}: {e}")
+                self._log(f"Failed to draw coords from {c} to {line_end}: {e}")
             else:
                 if self.mode == "animated":
                     self._frames.append(bg.copy())
         self._coord_list.clear()
-        self.log("")
+        self._log("")
 
     def draw_graph(self):
         """
         Calculates the coordinates, draws the graph and saves it
         """
-        self.log(
+        self._log(
             f"Preparing to draw a graph wide of {self.width} pixels, with {self._graduation} "
             f"as graduation, using {self.expr}...\n"
         )
@@ -227,7 +227,7 @@ class Orthogonal():
         if not hasattr(self.expr, "__iter__"):
             self.expr = (self.expr)
         for expr in self.expr:
-            self.log(f"Processing {expr}:", "")
+            self._log(f"Processing {expr}:", "")
             with self._mesure_time("calculation_time"):
                 self._calculate_coords(expr)
 
@@ -237,7 +237,7 @@ class Orthogonal():
         buffer = io.BytesIO()
 
         if self.mode == "animated":
-            self.log("Now saving animated graph...")
+            self._log("Now saving animated graph...")
             with self._mesure_time("save_time"):
                 backgroud.save(
                     f"{self._filename}.gif" if not self._save_to_buff else buffer,
@@ -249,7 +249,7 @@ class Orthogonal():
                 )
         else:
             with self._mesure_time("save_time"):
-                self.log("Now saving graph...")
+                self._log("Now saving graph...")
                 backgroud.save(
                     f"{self._filename}.png" if not self._save_to_buff else buffer,
                     format="PNG"
@@ -257,7 +257,7 @@ class Orthogonal():
         buffer.seek(0)
         self.buffer = buffer
 
-        self.log("Done.")
+        self._log("Done.")
 
 
 def get_cli_args():
