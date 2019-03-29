@@ -30,6 +30,19 @@ class Orthogonal():
         self._filename = filename
         self._verb = verbose
 
+        self.colors = [
+            "#1C61ED",  # Blue
+            "#F81010",  # Red
+            "#2CD748",  # Green
+            "#EB5DDE",  # Pink
+            "#000000",  # Black
+            "#F1B405",  # Light brown
+            "#977103",  # Dark brown
+            "#0D4AC6",  # Dark blue
+            "#2690E4",  # Light blue
+            "#F1F900",  # Yellow
+        ]
+
         self._frames = []
         self._coord_list = []
 
