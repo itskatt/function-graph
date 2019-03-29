@@ -61,6 +61,22 @@ class Orthogonal():
         else:
             self.stats[val] += time.perf_counter() - start
 
+    def _assing_colors(self):
+        c_len = len(self.colors)
+        e_len = len(self.expr)
+
+        if c_len == e_len:
+            return zip(self.expr, self.colors)
+
+        elif c_len > e_len:
+            return zip(self.expr, self.colors)
+
+        else:
+            colors = self.colors
+            while len(self.expr) > len(colors):
+                colors *= 2
+            return zip(self.expr, colors)
+
     def _log(self, text, end="\n"):
         if self._verb:
             print(text, end=end)
@@ -180,7 +196,7 @@ class Orthogonal():
                 self._coord_list.append(self._coords(x, y * a))
         self._log("")  # Space
 
-    def _draw_graph_line(self, bg, draw, size):
+    def _draw_graph_line(self, bg, draw, size, color):
         for i, c in enumerate(self._coord_list):
             try:
                 line_end = self._coord_list[i + 1]
@@ -199,7 +215,7 @@ class Orthogonal():
             try:
                 draw.line(
                     [c, line_end],
-                    "red",  # Color change
+                    color,  # Color change
                     size
                 )
             except OverflowError as e:
@@ -226,14 +242,17 @@ class Orthogonal():
         # Calculating and drawing logic
         if not hasattr(self.expr, "__iter__"):
             self.expr = (self.expr)
-        for expr in self.expr:
+
+        to_process = self._assing_colors()
+
+        for expr, color in to_process:
             self._log(f"Processing {expr}:", "")
 
             with self._mesure_time("calculation_time"):
                 self._calculate_coords(expr)
 
-            with self._mesure_time("draw_time"):
-                self._draw_graph_line(backgroud, draw, self.width // 125)  # <-- Dot/line size
+            with self._mesure_time("draw_time"):  # .  V Line size
+                self._draw_graph_line(backgroud, draw, self.width // 125, color)
 
         buffer = io.BytesIO()
 
