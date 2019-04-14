@@ -61,10 +61,7 @@ class Orthogonal():
         c_len = len(self.colors)
         e_len = len(self.expr)
 
-        if c_len == e_len:
-            return zip(self.expr, self.colors)
-
-        elif c_len > e_len:
+        if c_len == e_len or c_len > e_len:
             return zip(self.expr, self.colors)
 
         else:
