@@ -21,15 +21,21 @@ class Window(tk.Tk):
 
         self.setup_screen()
 
-        self.test_()
+        self.setup_graph_canvas()
 
-    def test_(self):
-        pass
+    def setup_graph_canvas(self):
+        c = self.canvas
+
+        # Lines
+        c.create_line(0, 250, 500, 250, width=4)  # NOTE: auto later
+        c.create_line(250, 0, 250, 500, width=4)
+
+        # TODO: Graduation
 
     def setup_screen(self):
         canvas = tk.Canvas(
             self,
-            bg="black",
+            bg="grey",
             width=self.size,
             height=self.size
         )
